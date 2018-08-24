@@ -7,9 +7,9 @@ const visibleExpense = (expenses, { text, sortBy, startDate, endDate }) => {
     return startDateExpense && endDateExpense && filterExpense;
   }).sort((a, b) => {
     if (sortBy === 'date') {
-      return a.createAt > b.createAt ? 1 : -1;
+      return a.createAt > b.createAt ? -1 : 1;
     } else if (sortBy === 'amount') {
-      return a.amount > b.amount ? 1 : -1;
+      return a.amount > b.amount ? -1 : 1;
     }
   })
 }
