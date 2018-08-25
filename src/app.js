@@ -14,8 +14,6 @@ store.dispatch(addExpense({ description: 'Rent Bill', amount: 1200 }));
 store.dispatch(addExpense({ description: 'Travel Cost', amount: 600 }));
 store.dispatch(addExpense({ description: 'Phone Bill', amount: 300 }));
 
-store.dispatch(setTextFilter('Phone'));
-
 const state = store.getState();
 
 const result = visibleExpense(state.expenses, state.filters);
