@@ -6,7 +6,7 @@ export const addExpense = (
     description = '',
     note = '',
     amount = 0,
-    createAt = 0
+    createdAt = 0
   } = {}
 ) => {
   return {
@@ -16,7 +16,7 @@ export const addExpense = (
       description,
       note,
       amount,
-      createAt
+      createdAt
     }
   }
 }

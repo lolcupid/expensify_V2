@@ -1,16 +1,15 @@
 import 'react-dates/initialize'
 import React from "react";
-import { addExpense } from "../action/expenses";
 import moment from 'moment';
 import { SingleDatePicker } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css';
 
 class ExpenseForm extends React.Component {
   state = {
-    description: "",
-    note: "",
-    amount: "",
-    createdAt: moment(),
+    description: this.props.expense ? this.props.expense.description : "",
+    note: this.props.expense ? this.props.expense.note : "",
+    amount: this.props.expense ? this.props.expense.amount : "",
+    createdAt: this.props.expense ? moment(this.props.expense.createdAt) : moment(),
     focused: false,
     error: ""
   };
@@ -38,18 +37,25 @@ class ExpenseForm extends React.Component {
 
   onSubmitChange = e => {
     e.preventDefault();
-    const { description, note, amount } = this.state;
-    if (!description || !note || !amount) {
-      return this.setState({ error: "You need to fill this form completely" });
+    const { description, note, amount, createdAt } = this.state;
+    if (!description || !amount) {
+      this.setState({ error: "You need to fill this form completely" });
+    } else {
+      this.setState({ error: "" });
+      this.props.onSubmit({
+        description,
+        amount,
+        note,
+        createdAt : createdAt.valueOf()
+      })
+      e.target.elements.description.value = "";
+      e.target.elements.amount.value = "";
+      e.target.elements.note.value = "";
     }
-    this.props.dispatch(addExpense(this.state));
-    e.target.elements.description.value = "";
-    e.target.elements.amount.value = "";
-    e.target.elements.note.value = "";
-    this.props.history.push("/");
   };
 
   render() {
+    const { description, note, amount, createdAt } = this.state;
     return (
       <div>
         {this.state.error && <p>{this.state.error}</p>}
@@ -58,22 +64,22 @@ class ExpenseForm extends React.Component {
             type="text"
             name="description"
             autoFocus
-            value={this.state.description}
+            value={description}
             onChange={this.onDescriptionChange}
           />
           <input
             type="number"
             name="amount"
-            value={this.state.amount}
+            value={amount}
             onChange={this.onAmountChange}
           />
           <textarea
             name="note"
-            value={this.state.note}
+            value={note}
             onChange={this.onNoteChange}
           />
           <SingleDatePicker
-            date={this.state.createdAt}
+            date={moment(createdAt)}
             onDateChange={createdAt => this.setState({ createdAt })}
             focused={this.state.focused}
             onFocusChange={({ focused }) => this.setState({ focused })}
