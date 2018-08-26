@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import ExpenseList from "./ExpenseList";
+import { startSetExpense } from "../action/expenses";
 import { setTextFilter, sortByDate, sortByAmount, startByDate, endByDate } from "../action/filters";
 import moment from 'moment';
 import 'react-dates/initialize'
